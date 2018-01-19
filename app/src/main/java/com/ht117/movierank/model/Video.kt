@@ -1,12 +1,14 @@
-package com.ht117.movierank
+package com.ht117.movierank.model
 
 import android.os.Parcel
 import android.os.Parcelable
 
 import com.google.gson.annotations.SerializedName
+import com.ht117.movierank.Api
+import com.ht117.movierank.Constants
 
 /**
- * @author arun
+ * @author Quang Pham
  */
 class Video : Parcelable {
 
@@ -18,13 +20,13 @@ class Video : Parcelable {
     var size: Int = 0
     var type: String? = null
 
-    protected constructor(`in`: Parcel) {
-        id = `in`.readString()
-        name = `in`.readString()
-        site = `in`.readString()
-        videoId = `in`.readString()
-        size = `in`.readInt()
-        type = `in`.readString()
+    private constructor(input: Parcel) {
+        id = input.readString()
+        name = input.readString()
+        site = input.readString()
+        videoId = input.readString()
+        size = input.readInt()
+        type = input.readString()
     }
 
     override fun describeContents(): Int {
@@ -40,18 +42,16 @@ class Video : Parcelable {
         parcel.writeString(type)
     }
 
-    companion object {
-        val SITE_YOUTUBE = "YouTube"
-
-        val CREATOR: Parcelable.Creator<Video> = object : Parcelable.Creator<Video> {
-            override fun createFromParcel(`in`: Parcel): Video {
-                return Video(`in`)
-            }
-
-            override fun newArray(size: Int): Array<Video?> {
-                return arrayOfNulls(size)
-            }
+    companion object CREATOR : Parcelable.Creator<Video> {
+        override fun createFromParcel(parcel: Parcel): Video {
+            return Video(parcel)
         }
+
+        override fun newArray(size: Int): Array<Video?> {
+            return arrayOfNulls(size)
+        }
+
+        val SITE_YOUTUBE = "YouTube"
 
         fun getUrl(video: Video): String {
             return if (SITE_YOUTUBE.equals(video.site!!, ignoreCase = true)) {
@@ -69,4 +69,11 @@ class Video : Parcelable {
             }
         }
     }
+}
+
+class VideoWrapper {
+
+    @SerializedName("results")
+    var videos: List<Video>? = null
+
 }

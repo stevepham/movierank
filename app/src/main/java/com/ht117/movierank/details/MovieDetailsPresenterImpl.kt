@@ -1,8 +1,8 @@
 package com.ht117.movierank.details
 
-import com.ht117.movierank.Movie
-import com.ht117.movierank.Review
-import com.ht117.movierank.Video
+import com.ht117.movierank.model.Movie
+import com.ht117.movierank.model.Review
+import com.ht117.movierank.model.Video
 import com.ht117.movierank.favorites.FavoritesInteractor
 import com.ht117.movierank.util.RxUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,7 +12,8 @@ import io.reactivex.schedulers.Schedulers
 /**
  * @author Quang Pham
  */
-class MovieDetailsPresenterImpl(val movieDetailsInteractor: MovieDetailsInteractor, val favoritesInteractor: FavoritesInteractor) : MovieDetailsPresenter {
+class MovieDetailsPresenterImpl(private val movieDetailsInteractor: MovieDetailsInteractor,
+                                private val favoritesInteractor: FavoritesInteractor) : MovieDetailsPresenter {
     private var view: MovieDetailsView? = null
     private var trailersSubscription: Disposable? = null
     private var reviewSubscription: Disposable? = null
@@ -39,7 +40,7 @@ class MovieDetailsPresenterImpl(val movieDetailsInteractor: MovieDetailsInteract
         trailersSubscription = movieDetailsInteractor.getTrailers(movie.id!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ this.onGetTrailersSuccess(it) })
+                .subscribe({ this.onGetTrailersSuccess(it) }, {this.onGetTrailersFailure()})
     }
 
     private fun onGetTrailersSuccess(videos: List<Video>) {
@@ -55,7 +56,7 @@ class MovieDetailsPresenterImpl(val movieDetailsInteractor: MovieDetailsInteract
     override fun showReviews(movie: Movie) {
         reviewSubscription = movieDetailsInteractor.getReviews(movie.id!!).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ this.onGetReviewsSuccess(it) })
+                .subscribe({ this.onGetReviewsSuccess(it) }, {this.onGetReviewsFailure()})
     }
 
     private fun onGetReviewsSuccess(reviews: List<Review>) {
@@ -81,9 +82,9 @@ class MovieDetailsPresenterImpl(val movieDetailsInteractor: MovieDetailsInteract
 
     override fun onFavoriteClick(movie: Movie) {
         if (isViewAttached) {
-            val isFavorite = favoritesInteractor.isFavorite(movie.id)
+            val isFavorite = favoritesInteractor.isFavorite(movie.id!!)
             if (isFavorite) {
-                favoritesInteractor.unFavorite(movie.id)
+                favoritesInteractor.unFavorite(movie.id!!)
                 view!!.showUnFavorited()
             } else {
                 favoritesInteractor.setFavorite(movie)

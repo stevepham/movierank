@@ -1,7 +1,7 @@
 package com.ht117.movierank.details
 
-import com.ht117.movierank.Review
-import com.ht117.movierank.Video
+import com.ht117.movierank.model.Review
+import com.ht117.movierank.model.Video
 import io.reactivex.Observable
 
 /**

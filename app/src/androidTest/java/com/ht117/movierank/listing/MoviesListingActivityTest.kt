@@ -20,7 +20,7 @@ import android.support.v7.widget.RecyclerView
 import com.ht117.movierank.R
 
 /**
- * @author arunsasidharan
+ * @author Quang Pham
  */
 @RunWith(AndroidJUnit4::class)
 class MoviesListingActivityTest {

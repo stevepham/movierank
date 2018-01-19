@@ -1,4 +1,4 @@
-package com.ht117.movierank
+package com.ht117.movierank.model
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -18,7 +18,7 @@ class Movie : Parcelable {
     @SerializedName("vote_average")
     var voteAverage: Double = 0.toDouble()
 
-    protected constructor(input: Parcel) {
+    private constructor(input: Parcel) {
         id = input.readString()
         overview = input.readString()
         releaseDate = input.readString()
@@ -51,4 +51,10 @@ class Movie : Parcelable {
             return arrayOfNulls(size)
         }
     }
+}
+
+class MoviesWraper {
+
+    @SerializedName("results")
+    var movieList: List<Movie>? = null
 }

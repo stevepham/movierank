@@ -3,7 +3,7 @@ package com.ht117.movierank.favorites
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.TextUtils
-import com.ht117.movierank.Movie
+import com.ht117.movierank.model.Movie
 import com.squareup.moshi.Moshi
 import java.io.IOException
 import java.util.*
@@ -18,7 +18,6 @@ class FavoritesStore @Inject
 constructor(context: Context) {
     private val pref: SharedPreferences
 
-    // Do nothing;
     val favorites: List<Movie>
         @Throws(IOException::class)
         get() {
@@ -55,11 +54,7 @@ constructor(context: Context) {
     fun isFavorite(id: String): Boolean {
         val movieJson = pref.getString(id, null)
 
-        return if (!TextUtils.isEmpty(movieJson)) {
-            true
-        } else {
-            false
-        }
+        return !TextUtils.isEmpty(movieJson)
     }
 
     fun unfavorite(id: String) {
@@ -69,7 +64,6 @@ constructor(context: Context) {
     }
 
     companion object {
-
         private val PREF_NAME = "FavoritesStore"
     }
 }

@@ -13,8 +13,8 @@ import dagger.Provides
 class DetailsModule {
     @Provides
     @DetailsScope
-    internal fun provideInteractor(tmdbWebService: TmdbWebService): MovieDetailsInteractor {
-        return MovieDetailsInteractorImpl(tmdbWebService)
+    internal fun provideInteractor(service: TmdbWebService): MovieDetailsInteractor {
+        return MovieDetailsInteractorImpl(service)
     }
 
     @Provides

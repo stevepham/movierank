@@ -4,7 +4,7 @@ package com.ht117.movierank.util
 import io.reactivex.disposables.Disposable
 
 /**
- * @author arun
+ * @author Quang Pham
  */
 object RxUtils {
     fun unsubscribe(subscription: Disposable?) {

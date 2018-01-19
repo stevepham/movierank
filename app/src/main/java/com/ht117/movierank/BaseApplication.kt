@@ -12,7 +12,7 @@ import com.ht117.movierank.network.NetworkModule
 import dagger.internal.DaggerCollections
 
 /**
- * @author arun
+ * @author Quang Pham
  */
 class BaseApplication : Application() {
     private var appComponent: AppComponent? = null

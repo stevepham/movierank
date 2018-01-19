@@ -16,7 +16,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.ht117.movierank.BaseApplication
-import com.ht117.movierank.Movie
+import com.ht117.movierank.model.Movie
 import com.ht117.movierank.R
 import com.ht117.movierank.listing.sorting.SortingDialogFragment
 import java.util.*

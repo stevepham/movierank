@@ -5,7 +5,7 @@ import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.ht117.movierank.Constants
-import com.ht117.movierank.Movie
+import com.ht117.movierank.model.Movie
 import com.ht117.movierank.R
 
 class MovieDetailsActivity : AppCompatActivity() {

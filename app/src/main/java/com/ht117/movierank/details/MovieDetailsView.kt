@@ -1,8 +1,8 @@
 package com.ht117.movierank.details
 
-import com.ht117.movierank.Movie
-import com.ht117.movierank.Review
-import com.ht117.movierank.Video
+import com.ht117.movierank.model.Movie
+import com.ht117.movierank.model.Review
+import com.ht117.movierank.model.Video
 
 /**
  * @author Quang Pham

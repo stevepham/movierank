@@ -9,7 +9,7 @@ import javax.inject.Singleton
 /**
  * @author Quang Pham
  */
-@Module(includes = arrayOf(AppModule::class))
+@Module(includes = [AppModule::class])
 class FavoritesModule {
     @Provides
     @Singleton

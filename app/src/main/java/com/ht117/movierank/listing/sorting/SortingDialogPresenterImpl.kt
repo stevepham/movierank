@@ -3,7 +3,7 @@ package com.ht117.movierank.listing.sorting
 /**
  * @author Quang Pham
  */
-class SortingDialogPresenterImpl(val sortingDialogInteractor: SortingDialogInteractor) : SortingDialogPresenter {
+class SortingDialogPresenterImpl(private val sortingDialogInteractor: SortingDialogInteractor) : SortingDialogPresenter {
     private var view: SortingDialogView? = null
 
     private val isViewAttached: Boolean
@@ -21,12 +21,10 @@ class SortingDialogPresenterImpl(val sortingDialogInteractor: SortingDialogInter
         if (isViewAttached) {
             val selectedOption = sortingDialogInteractor.selectedSortingOption
 
-            if (selectedOption == SortType.MOST_POPULAR.value) {
-                view!!.setPopularChecked()
-            } else if (selectedOption == SortType.HIGHEST_RATED.value) {
-                view!!.setHighestRatedChecked()
-            } else {
-                view!!.setFavoritesChecked()
+            when (selectedOption) {
+                SortType.MOST_POPULAR.value -> view!!.setPopularChecked()
+                SortType.HIGHEST_RATED.value -> view!!.setHighestRatedChecked()
+                else -> view!!.setFavoritesChecked()
             }
         }
     }

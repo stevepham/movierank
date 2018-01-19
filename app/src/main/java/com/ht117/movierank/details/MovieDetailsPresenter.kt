@@ -1,6 +1,6 @@
 package com.ht117.movierank.details
 
-import com.ht117.movierank.Movie
+import com.ht117.movierank.model.Movie
 
 /**
  * @author Quang Pham

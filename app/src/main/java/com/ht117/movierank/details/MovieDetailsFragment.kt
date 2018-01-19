@@ -24,6 +24,9 @@ import butterknife.Unbinder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ht117.movierank.*
+import com.ht117.movierank.model.Movie
+import com.ht117.movierank.model.Review
+import com.ht117.movierank.model.Video
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
@@ -78,22 +81,21 @@ class MovieDetailsFragment : Fragment(), MovieDetailsView, View.OnClickListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
-            val movie = arguments!!.get(Constants.MOVIE) as Movie
+            movie = arguments!!.get(Constants.MOVIE) as Movie
             if (movie != null) {
-                this.movie = movie
-                movieDetailsPresenter!!.setView(this)
-                movieDetailsPresenter!!.showDetails(movie)
-                movieDetailsPresenter!!.showFavoriteButton(movie)
+                movieDetailsPresenter.setView(this)
+                movieDetailsPresenter.showDetails(movie!!)
+                movieDetailsPresenter.showFavoriteButton(movie!!)
             }
         }
     }
 
     private fun setToolbar() {
-        collapsingToolbar!!.setContentScrimColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
-        collapsingToolbar!!.title = getString(R.string.movie_details)
-        collapsingToolbar!!.setCollapsedTitleTextAppearance(R.style.CollapsedToolbar)
-        collapsingToolbar!!.setExpandedTitleTextAppearance(R.style.ExpandedToolbar)
-        collapsingToolbar!!.isTitleEnabled = true
+        collapsingToolbar.setContentScrimColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        collapsingToolbar.title = getString(R.string.movie_details)
+        collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedToolbar)
+        collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedToolbar)
+        collapsingToolbar.isTitleEnabled = true
 
         if (toolbar != null) {
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
@@ -106,27 +108,27 @@ class MovieDetailsFragment : Fragment(), MovieDetailsView, View.OnClickListener 
     }
 
     override fun showDetails(movie: Movie) {
-        Glide.with(context!!).load(Api.getBackdropPath(movie.backdropPath!!)).into(poster!!)
-        title!!.setText(movie.title)
-        releaseDate!!.text = String.format(getString(R.string.release_date), movie.releaseDate)
-        rating!!.text = String.format(getString(R.string.rating), movie.voteAverage.toString())
-        overview!!.setText(movie.overview)
-        movieDetailsPresenter!!.showTrailers(movie)
-        movieDetailsPresenter!!.showReviews(movie)
+        Glide.with(context!!).load(Api.getBackdropPath(movie.backdropPath!!)).into(poster)
+        title.text = movie.title
+        releaseDate.text = String.format(getString(R.string.release_date), movie.releaseDate)
+        rating.text = String.format(getString(R.string.rating), movie.voteAverage.toString())
+        overview.text = movie.overview
+        movieDetailsPresenter.showTrailers(movie)
+        movieDetailsPresenter.showReviews(movie)
     }
 
     override fun showTrailers(trailers: List<Video>) {
         if (trailers.isEmpty()) {
-            label!!.visibility = View.GONE
-            this.trailers!!.visibility = View.GONE
-            horizontalScrollView!!.visibility = View.GONE
+            label.visibility = View.GONE
+            this.trailers.visibility = View.GONE
+            horizontalScrollView.visibility = View.GONE
 
         } else {
-            label!!.visibility = View.VISIBLE
-            this.trailers!!.visibility = View.VISIBLE
-            horizontalScrollView!!.visibility = View.VISIBLE
+            label.visibility = View.VISIBLE
+            this.trailers.visibility = View.VISIBLE
+            horizontalScrollView.visibility = View.VISIBLE
 
-            this.trailers!!.removeAllViews()
+            this.trailers.removeAllViews()
             val inflater = activity!!.layoutInflater
             val options = RequestOptions()
                     .placeholder(R.color.colorPrimary)
@@ -136,7 +138,7 @@ class MovieDetailsFragment : Fragment(), MovieDetailsView, View.OnClickListener 
             for (trailer in trailers) {
                 val thumbContainer = inflater.inflate(R.layout.video, this.trailers, false)
                 val thumbView = ButterKnife.findById(thumbContainer, R.id.video_thumb) as ImageView
-                thumbView.setTag(Video.getUrl(trailer))
+                thumbView.tag = Video.getUrl(trailer)
                 thumbView.requestLayout()
                 thumbView.setOnClickListener(this)
 
@@ -148,39 +150,39 @@ class MovieDetailsFragment : Fragment(), MovieDetailsView, View.OnClickListener 
                         .load(Video.getThumbnailUrl(trailer))
                         .apply(options)
                         .into(thumbView)*/
-                this.trailers!!.addView(thumbContainer)
+                this.trailers.addView(thumbContainer)
             }
         }
     }
 
     override fun showReviews(reviews: List<Review>) {
         if (reviews.isEmpty()) {
-            this.reviews!!.visibility = View.GONE
-            reviewsContainer!!.visibility = View.GONE
+            this.reviews.visibility = View.GONE
+            reviewsContainer.visibility = View.GONE
         } else {
-            this.reviews!!.visibility = View.VISIBLE
-            reviewsContainer!!.visibility = View.VISIBLE
+            this.reviews.visibility = View.VISIBLE
+            reviewsContainer.visibility = View.VISIBLE
 
-            reviewsContainer!!.removeAllViews()
+            reviewsContainer.removeAllViews()
             val inflater = activity!!.layoutInflater
             for (review in reviews) {
                 val reviewContainer = inflater.inflate(R.layout.review, reviewsContainer, false) as ViewGroup
                 val reviewAuthor = ButterKnife.findById(reviewContainer, R.id.review_author) as TextView
                 val reviewContent = ButterKnife.findById(reviewContainer, R.id.review_content) as TextView
-                reviewAuthor.setText(review.author)
-                reviewContent.setText(review.content)
+                reviewAuthor.text = review.author
+                reviewContent.text = review.content
                 reviewContent.setOnClickListener(this)
-                reviewsContainer!!.addView(reviewContainer)
+                reviewsContainer.addView(reviewContainer)
             }
         }
     }
 
     override fun showFavorited() {
-        favorite!!.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_favorite_white_24dp))
+        favorite.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_favorite_white_24dp))
     }
 
     override fun showUnFavorited() {
-        favorite!!.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_favorite_border_white_24dp))
+        favorite.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_favorite_border_white_24dp))
     }
 
     @OnClick(R.id.favorite)
@@ -192,8 +194,7 @@ class MovieDetailsFragment : Fragment(), MovieDetailsView, View.OnClickListener 
 
             R.id.favorite -> onFavoriteClick()
 
-            else -> {
-            }
+            else -> { }
         }
     }
 

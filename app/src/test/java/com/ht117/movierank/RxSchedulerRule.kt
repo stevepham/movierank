@@ -23,7 +23,7 @@ class RxSchedulerRule : TestRule {
 
     override fun apply(base: Statement, description: Description): Statement {
         return object : Statement() {
-            //@Throws(Throwable::class)
+            @Throws(Throwable::class)
             override fun evaluate() {
                 RxAndroidPlugins.reset()
                 RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerFunctionLazy)

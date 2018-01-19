@@ -3,7 +3,7 @@ package com.ht117.movierank.listing.sorting
 /**
  * @author Quang Pham
  */
-class SortingDialogInteractorImpl(val sortingOptionStore: SortingOptionStore) : SortingDialogInteractor {
+class SortingDialogInteractorImpl(private val sortingOptionStore: SortingOptionStore) : SortingDialogInteractor {
 
     override val selectedSortingOption: Int
         get() = sortingOptionStore.selectedOption

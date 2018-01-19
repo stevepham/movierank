@@ -1,14 +1,14 @@
 package com.ht117.movierank.network
 
-import com.ht117.movierank.MoviesWraper
-import com.ht117.movierank.ReviewsWrapper
-import com.ht117.movierank.VideoWrapper
+import com.ht117.movierank.model.MoviesWraper
+import com.ht117.movierank.model.ReviewsWrapper
+import com.ht117.movierank.model.VideoWrapper
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 /**
- * Created by ivan on 8/20/2017.
+ * Created by Quang Pham
  */
 
 interface TmdbWebService {

@@ -18,13 +18,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.ht117.movierank.Api
-import com.ht117.movierank.Movie
+import com.ht117.movierank.model.Movie
 import com.ht117.movierank.R
 
 /**
- * @author arun
+ * @author Quang Pham
  */
-class MoviesListingAdapter(val movies: List<Movie>, val view: MoviesListingView) : RecyclerView.Adapter<MoviesListingAdapter.ViewHolder>() {
+class MoviesListingAdapter(private val movies: List<Movie>, val view: MoviesListingView) : RecyclerView.Adapter<MoviesListingAdapter.ViewHolder>() {
     private var context: Context? = null
 
     inner class ViewHolder(root: View) : RecyclerView.ViewHolder(root), View.OnClickListener {

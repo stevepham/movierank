@@ -5,11 +5,10 @@ import com.esoxjem.movierank.Review
 import com.esoxjem.movierank.RxSchedulerRule
 import com.esoxjem.movierank.Video
 import com.esoxjem.movierank.favorites.FavoritesInteractor
-import com.ht117.movierank.Movie
-import com.ht117.movierank.Review
-import com.ht117.movierank.Video
-import com.ht117.movierank.details.MovieDetailsInteractor
-import com.ht117.movierank.details.MovieDetailsView
+import com.ht117.movierank.RxSchedulerRule
+import com.ht117.movierank.model.Movie
+import com.ht117.movierank.model.Review
+import com.ht117.movierank.model.Video
 import com.ht117.movierank.favorites.FavoritesInteractor
 
 import org.junit.After
@@ -30,7 +29,7 @@ import org.mockito.Mockito.verifyZeroInteractions
 import org.mockito.Mockito.`when`
 
 /**
- * @author arunsasidharan
+ * @author Quang Pham
  */
 @RunWith(MockitoJUnitRunner::class)
 class MovieDetailsPresenterImplTest {
@@ -43,11 +42,11 @@ class MovieDetailsPresenterImplTest {
     @Mock
     private val favoritesInteractor: FavoritesInteractor? = null
     @Mock
-    internal var videos: List<Video>? = null
+    var videos: List<Video>? = null
     @Mock
-    internal var movie: Movie? = null
+    var movie: Movie? = null
     @Mock
-    internal var reviews: List<Review>? = null
+    var reviews: List<Review>? = null
 
     private var movieDetailsPresenter: MovieDetailsPresenterImpl? = null
 
@@ -55,8 +54,8 @@ class MovieDetailsPresenterImplTest {
     @Throws(Exception::class)
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        movieDetailsPresenter = MovieDetailsPresenterImpl(movieDetailsInteractor, favoritesInteractor)
-        movieDetailsPresenter!!.setView(view)
+        movieDetailsPresenter = MovieDetailsPresenterImpl(movieDetailsInteractor!!, favoritesInteractor!!)
+        movieDetailsPresenter!!.setView(view!!)
     }
 
     @After
@@ -66,42 +65,42 @@ class MovieDetailsPresenterImplTest {
 
     @Test
     fun shouldUnfavoriteIfFavoriteTapped() {
-        `when`(movie!!.getId()).thenReturn("12345")
-        `when`(favoritesInteractor!!.isFavorite(movie!!.getId())).thenReturn(true)
+        `when`(movie!!.id).thenReturn("12345")
+        `when`(favoritesInteractor!!.isFavorite(movie!!.id!!)).thenReturn(true)
 
-        movieDetailsPresenter!!.onFavoriteClick(movie)
+        movieDetailsPresenter!!.onFavoriteClick(movie!!)
 
         verify<MovieDetailsView>(view).showUnFavorited()
     }
 
     @Test
     fun shouldFavoriteIfUnfavoriteTapped() {
-        `when`(movie!!.getId()).thenReturn("12345")
-        `when`(favoritesInteractor!!.isFavorite(movie!!.getId())).thenReturn(false)
+        `when`(movie!!.id).thenReturn("12345")
+        `when`(favoritesInteractor!!.isFavorite(movie!!.id!!)).thenReturn(false)
 
-        movieDetailsPresenter!!.onFavoriteClick(movie)
+        movieDetailsPresenter!!.onFavoriteClick(movie!!)
 
         verify<MovieDetailsView>(view).showFavorited()
     }
 
     @Test
     fun shouldBeAbleToShowTrailers() {
-        `when`(movie!!.getId()).thenReturn("12345")
+        `when`(movie!!.id).thenReturn("12345")
         val responseObservable = Observable.just<List<Video>>(videos!!)
-        `when`(movieDetailsInteractor!!.getTrailers(movie!!.getId())).thenReturn(responseObservable)
+        `when`(movieDetailsInteractor!!.getTrailers(movie!!.id!!)).thenReturn(responseObservable)
 
-        movieDetailsPresenter!!.showTrailers(movie)
+        movieDetailsPresenter!!.showTrailers(movie!!)
 
-        verify<MovieDetailsView>(view).showTrailers(videos)
+        verify<MovieDetailsView>(view).showTrailers(videos!!)
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldFailSilentlyWhenNoTrailers() {
-        `when`(movie!!.getId()).thenReturn("12345")
-        `when`(movieDetailsInteractor!!.getTrailers(movie!!.getId())).thenReturn(Observable.error<Any>(SocketTimeoutException()))
+        `when`(movie!!.id).thenReturn("12345")
+        `when`(movieDetailsInteractor!!.getTrailers(movie!!.id!!)).thenReturn(Observable.error { SocketTimeoutException() })
 
-        movieDetailsPresenter!!.showTrailers(movie)
+        movieDetailsPresenter!!.showTrailers(movie!!)
 
         verifyZeroInteractions(view)
     }
@@ -109,22 +108,22 @@ class MovieDetailsPresenterImplTest {
     @Test
     fun shouldBeAbleToShowReviews() {
         val responseObservable = Observable.just<List<Review>>(reviews!!)
-        `when`(movie!!.getId()).thenReturn("12345")
-        `when`(movieDetailsInteractor!!.getReviews(movie!!.getId())).thenReturn(responseObservable)
+        `when`(movie!!.id).thenReturn("12345")
+        `when`(movieDetailsInteractor!!.getReviews(movie!!.id!!)).thenReturn(responseObservable)
 
-        movieDetailsPresenter!!.showReviews(movie)
+        movieDetailsPresenter!!.showReviews(movie!!)
 
-        verify<MovieDetailsView>(view).showReviews(reviews)
+        verify<MovieDetailsView>(view).showReviews(reviews!!)
     }
 
 
     @Test
     @Throws(Exception::class)
     fun shouldFailSilentlyWhenNoReviews() {
-        `when`(movie!!.getId()).thenReturn("12345")
-        `when`(movieDetailsInteractor!!.getReviews(movie!!.getId())).thenReturn(Observable.error<Any>(SocketTimeoutException()))
+        `when`(movie!!.id).thenReturn("12345")
+        `when`(movieDetailsInteractor!!.getReviews(movie!!.id!!)).thenReturn(Observable.error{SocketTimeoutException()})
 
-        movieDetailsPresenter!!.showReviews(movie)
+        movieDetailsPresenter!!.showReviews(movie!!)
 
         verifyZeroInteractions(view)
     }

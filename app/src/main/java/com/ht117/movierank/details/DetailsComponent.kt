@@ -6,7 +6,7 @@ import dagger.Subcomponent
  * @author Quang Pham
  */
 @DetailsScope
-@Subcomponent(modules = arrayOf(DetailsModule::class))
+@Subcomponent(modules = [DetailsModule::class])
 interface DetailsComponent {
     fun inject(target: MovieDetailsFragment)
 }

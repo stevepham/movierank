@@ -8,7 +8,7 @@ import dagger.Subcomponent
  * @author Quang Pham
  */
 @ListingScope
-@Subcomponent(modules = arrayOf(ListingModule::class, SortingModule::class))
+@Subcomponent(modules = [ListingModule::class, SortingModule::class])
 interface ListingComponent {
     fun inject(fragment: MoviesListingFragment): MoviesListingFragment
 

@@ -17,7 +17,7 @@ import com.ht117.movierank.listing.MoviesListingPresenter
 import javax.inject.Inject
 
 /**
- * @author arun
+ * @author Quang Pham
  */
 class SortingDialogFragment : DialogFragment(), SortingDialogView, RadioGroup.OnCheckedChangeListener {
     @Inject
@@ -68,7 +68,7 @@ class SortingDialogFragment : DialogFragment(), SortingDialogView, RadioGroup.On
     }
 
     override fun setFavoritesChecked() {
-        favorites!!.isChecked = true
+        favorites.isChecked = true
     }
 
     override fun onCheckedChanged(radioGroup: RadioGroup, checkedId: Int) {
